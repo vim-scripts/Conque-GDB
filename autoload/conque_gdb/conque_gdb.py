@@ -15,7 +15,8 @@ GDB_EXIT_REGEX = re.compile(GDB_EXIT_MARK)
 
 GDB_PROMPT_REGEX = re.compile('.*' + GDB_PROMPT_MARK + '.*')
 
-GET_BPS_REGEX = re.compile('(bkpt\s*?\=\s*?\{.*?(?:["].*?["])+?\s*?\}.*?)', re.I)
+#GET_BPS_REGEX = re.compile('(bkpt\s*?\=\s*?\{.*?(?:["].*?["])+?\s*?\}.*?)', re.I)
+GET_BPS_REGEX = re.compile('(bkpt\s*?\=\s*?\{.*?(?:["].*?["])+?\s*?\}(?!\s*?,\s*?\{).*?)', re.I)
 
 GET_ATTR_STR = '\s*?\=\s*?["](.*?)["].*?'
 
