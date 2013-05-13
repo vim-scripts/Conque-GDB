@@ -68,15 +68,15 @@ if !exists('g:ConqueGdb_Print')
 endif
 
 " Commands to open conque gdb
-command! -nargs=* -complete=shellcmd ConqueGdb call conque_gdb#open(<q-args>, [
+command! -nargs=* -complete=file ConqueGdb call conque_gdb#open(<q-args>, [
         \ get(g:conque_gdb_src_splits, g:ConqueGdb_SrcSplit, g:conque_gdb_default_split),
         \ 'buffer ' . bufnr("%"),
         \ 'wincmd w'])
-command! -nargs=* -complete=shellcmd ConqueGdbSplit call conque_gdb#open(<q-args>, [
+command! -nargs=* -complete=file ConqueGdbSplit call conque_gdb#open(<q-args>, [
         \ 'rightbelow split'])
-command! -nargs=* -complete=shellcmd ConqueGdbVSplit call conque_gdb#open(<q-args>, [
+command! -nargs=* -complete=file ConqueGdbVSplit call conque_gdb#open(<q-args>, [
         \ 'rightbelow vsplit'])
-command! -nargs=* -complete=shellcmd ConqueGdbTab call conque_gdb#open(<q-args>, [
+command! -nargs=* -complete=file ConqueGdbTab call conque_gdb#open(<q-args>, [
         \ 'tabnew',
         \ get(g:conque_gdb_src_splits, g:ConqueGdb_SrcSplit, g:conque_gdb_default_split),
         \ 'buffer ' . bufnr("%"),

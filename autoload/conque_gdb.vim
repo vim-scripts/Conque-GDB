@@ -464,8 +464,10 @@ endfunction
 " Note that this is only supported on Unix where gdb has support for the
 " python API.
 function! conque_gdb#toggle_breakpoint(fullfile, line)
-    let l:command = "clear "
-    sil exe s:py . ' ' . s:gdb.var . '.vim_toggle_breakpoint("' . s:escape_to_py_file(a:fullfile) .'","'. a:line .'")'
+	let l:command = "clear "
+    if bufloaded(s:gdb.buffer_number) || s:gdb.active
+        sil exe s:py . ' ' . s:gdb.var . '.vim_toggle_breakpoint("' . s:escape_to_py_file(a:fullfile) .'","'. a:line .'")'
+    endif
     call conque_gdb#command(l:command . a:fullfile . ':' . a:line)
 endfunction
 
