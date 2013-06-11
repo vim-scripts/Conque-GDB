@@ -51,6 +51,9 @@ Contents
        3.5.7 Toggle break point mapping      |conque-gdb-toggle-mapping|
        3.5.8 Set break point mapping         |conque-gdb-break-mapping|
        3.5.9 Delete break point mapping      |conque-gdb-delete-break-mapping|
+       3.5.10 Finish mapping                 |conque-gdb-finish-mapping|
+       3.5.11 Backtrace mapping              |conque-gdb-backtrace-mapping|
+4. Custom key mappings                       |conque-gdb-custom-key-mappings|
 
 ==============================================================================
 
@@ -212,9 +215,9 @@ keyboard mappings described below. You can specify this to anything you want,
 however you can freely modify any of the keyboard mapping regardless of the
 value of |g:ConqueGdb_Leader|. By default it is:
 >
-    let g:ConqueGdb_Leader = '<leader>'
+    let g:ConqueGdb_Leader = '<Leader>'
 >
-Note that |<leader>| is usually defined as \ (backslash).
+Note that |<Leader>| is usually defined as \ (backslash).
 
 3.4.2 Run program mapping                    *conque-gdb-run-mapping*
                                              *g:ConqueGdb_Run*
@@ -289,6 +292,36 @@ line. Default:
 >
     let g:ConqueGdb_DeleteBreak = g:ConqueGdb_Leader . 'd'
 >
+3.5.10 Finish mapping                              *conque-gdb-finish-mapping*
+                                                   *g:ConqueGdb_Finish*
+
+Mapping to issue the finish command. Default:
+>
+    let g:ConqueGdb_Finish = g:ConqueGdb_Leader . 'f'
+>
+3.5.11 Backtrace mapping                        *conque-gdb-backtrace-mapping*
+                                                *g:ConqueGdb_Backtrace*
+
+Mapping to execute the backtrace command. By default it is:
+>
+    let g:ConqueGdb_Backtrace = g:ConqueGdb_Leader . 't'
+>
+4. Custom key mappings                        *conque-gdb-custom-key-mappings*
+
+This section shows you how you can use |ConqueGdbCommand| to setup your
+own customized Conque GDB key mappings.
+
+You might want to be able answer GDB confirmations (say y or n) without
+having to go to the Conque GDB window. You can use the |ConqueGdbCommand|
+command to achieve this:
+>
+    nnoremap <silent> <Leader>Y :ConqueGdbCommand y<CR>
+    nnoremap <silent> <Leader>N :ConqueGdbCommand n<CR>
+>
+With those 2 lines in your vimrc file you can type the leader key followed
+by a capital Y to answer yes to GDB confirmations and leader followed by
+capital N to answer no to GDB confirmations.
+
 ==============================================================================
 
 vim:tw=78:ts=8:ft=help:norl:

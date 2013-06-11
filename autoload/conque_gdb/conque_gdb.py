@@ -9,13 +9,12 @@ GDB_EXIT_MARK = '\x1a\x19'
 # Marks a prompt has started and stopped
 GDB_PROMPT_MARK = '\x1a\x18'
 
-GDB_BREAK_REGEX = re.compile(GDB_BREAK_MARK)
+GDB_BREAK_REGEX = re.compile('.*' + GDB_BREAK_MARK + '.*')
 
-GDB_EXIT_REGEX = re.compile(GDB_EXIT_MARK)
+GDB_EXIT_REGEX = re.compile('.*' + GDB_EXIT_MARK + '.*')
 
 GDB_PROMPT_REGEX = re.compile('.*' + GDB_PROMPT_MARK + '.*')
 
-#GET_BPS_REGEX = re.compile('(bkpt\s*?\=\s*?\{.*?(?:["].*?["])+?\s*?\}.*?)', re.I)
 GET_BPS_REGEX = re.compile('(bkpt\s*?\=\s*?\{.*?(?:["].*?["])+?\s*?\}(?!\s*?,\s*?\{).*?)', re.I)
 
 GET_ATTR_STR = '\s*?\=\s*?["](.*?)["].*?'
@@ -118,10 +117,10 @@ class ConqueGdb(Conque):
             self.append_breakpoint(input)
         elif GDB_BREAK_REGEX.match(input):
             self.begin_breakpoint()
-            self.plain_text(input.replace(GDB_BREAK_MARK, ''))
+            self.plain_text(input.split(GDB_BREAK_MARK, 1)[1])
         elif GDB_EXIT_REGEX.match(input):
             self.handle_inferior_exit()
-            self.plain_text(input.replace(GDB_EXIT_MARK, ''))
+            self.plain_text(input.split(GDB_EXIT_MARK, 1)[1])
         elif GDB_PROMPT_REGEX.match(input):
             sp = input.split(GDB_PROMPT_MARK)
             if sp[0] != '':

@@ -392,17 +392,17 @@ function! conque_gdb#open(...)
             return
         endif
 
-        if g:conque_gdb_gdb_py_support
-            let l:extra = ' '
+        "if g:conque_gdb_gdb_py_support
+        "    let l:extra = ' '
+        "else
+        " Find out which gdb command script gdb should execute on startup.
+        sil let l:enable_confirm = system(s:gdb_command . ' -q -batch -ex "show confirm"')
+        if l:enable_confirm =~ '.*\s\+[Oo][Nn]\W.*'
+            let l:extra = ' -x ' . s:SCRIPT_DIR . 'gdbinit_confirm.gdb '
         else
-            " Find out which gdb command script gdb should execute on startup.
-            sil let l:enable_confirm = system(s:gdb_command . ' -q -batch -ex "show confirm"')
-            if l:enable_confirm =~ '.*\s\+[Oo][Nn]\W.*'
-                let l:extra = ' -x ' . s:SCRIPT_DIR . 'nopyc.gdb '
-            else
-                let l:extra = ' -x ' . s:SCRIPT_DIR . 'nopync.gdb '
-            endif
+            let l:extra = ' -x ' . s:SCRIPT_DIR . 'gdbinit_no_confirm.gdb '
         endif
+        "endif
 
         " Don't let user use the TUI feature. It does not work with ConqueGdb.
         let l:user_args = get(a:000, 0, '')

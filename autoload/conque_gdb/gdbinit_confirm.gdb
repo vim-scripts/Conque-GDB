@@ -1,6 +1,8 @@
+set confirm off
+
 set prompt (gdb) 
 define set prompt
-  echo set prompt is not supported with ConqueGdb when GDB doesn't have python support\n
+  echo set prompt is not supported by ConqueGdb\n
 end
 
 define set annotate
@@ -14,3 +16,9 @@ end
 define tui
   echo tui command is not supported by ConqueGdb\n
 end
+
+define refresh
+  echo refresh command is not supported by ConqueGdb\n
+end
+
+set confirm on
