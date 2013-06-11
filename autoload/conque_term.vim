@@ -1382,6 +1382,8 @@ endfunction "}}}
 
 " called on SessionLoadPost event
 function! conque_term#resume_session() " {{{
+    " Session support is currently not working
+    return 
     if g:ConqueTerm_SessionSupport == 1
 
         " make sure terminals exist
@@ -1406,7 +1408,6 @@ function! conque_term#resume_session() " {{{
             " reopen command
             call conque_term#open(s:saved_terminals[idx].command)
 
-            return
         endfor
 
     endif

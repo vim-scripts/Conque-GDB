@@ -27,16 +27,15 @@ Contents
         3.1.1 Python version                   |ConqueTerm_PyVersion|
         3.1.2 Fast mode                        |ConqueTerm_FastMode|
         3.1.3 Color support                    |ConqueTerm_Color|
-        3.1.4 Session Support                  |ConqueTerm_SessionSupport|
-        3.1.5 Keep updating terminal buffer    |ConqueTerm_ReadUnfocused|
-        3.1.6 Insert mode when entering buffer |ConqueTerm_InsertOnEnter|
-        3.1.7 Close buffer when program exits  |ConqueTerm_CloseOnEnd|
-        3.1.8 Hide start messages              |ConqueTerm_StartMessages|
-        3.1.9 Regex for prompt highlighting    |ConqueTerm_PromptRegex|
-        3.1.10 Syntax type                     |ConqueTerm_Syntax|
-        3.1.11 The bell Vim message            |ConqueTerm_ShowBell|
-        3.1.12 Unfocused update time           |ConqueTerm_UnfocusedUpdateTime|
-        3.1.13 Focused update time             |ConqueTerm_FocusedUpdateTime|
+        3.1.4 Keep updating terminal buffer    |ConqueTerm_ReadUnfocused|
+        3.1.5 Insert mode when entering buffer |ConqueTerm_InsertOnEnter|
+        3.1.6 Close buffer when program exits  |ConqueTerm_CloseOnEnd|
+        3.1.7 Hide start messages              |ConqueTerm_StartMessages|
+        3.1.8 Regex for prompt highlighting    |ConqueTerm_PromptRegex|
+        3.1.9 Syntax type                      |ConqueTerm_Syntax|
+        3.1.10 The bell Vim message            |ConqueTerm_ShowBell|
+        3.1.11 Unfocused update time           |ConqueTerm_UnfocusedUpdateTime|
+        3.1.12 Focused update time             |ConqueTerm_FocusedUpdateTime|
     3.2 Keyboard                               |conque-keyboard|
         3.3.1 The <Esc> key                    |ConqueTerm_EscKey|
         3.3.2 The <C-c> mapping                |ConqueTerm_Interrupt|
@@ -258,29 +257,14 @@ Note: Color support is automatically disabled in "fast mode".
 >
     let g:ConqueTerm_Color = 1
 <
-3.1.4 Session Support                              *ConqueTerm_SessionSupport*
-
-Vim's :mksession command allows you to save your current buffer configuration
-to a file, which can be loaded at a later time after you've closed Vim.
-
-By default, Conque buffers are not restored. This is mostly for safety
-reasons; you may not want Vim to automatically re-run a destructive command.
-
-However, if you're not working with missile launch code, and want Vim to
-restart your Conque buffers when you load a session file, set this variable 
-to 1. Note your original subprocess and shell output will not be restored, but
-the same command will be started in your buffer.
->
-    let g:ConqueTerm_SessionSupport = 0
-<
-3.1.5 Keep updating terminal buffer                 *ConqueTerm_ReadUnfocused*
+3.1.4 Keep updating terminal buffer                 *ConqueTerm_ReadUnfocused*
 
 If set to 1 then your Conque buffers will continue to update after you've
 switched to another buffer.
 >
     let g:ConqueTerm_ReadUnfocused = 0
 <
-3.1.6 Insert mode when entering buffer              *ConqueTerm_InsertOnEnter*
+3.1.5 Insert mode when entering buffer              *ConqueTerm_InsertOnEnter*
 
 If set to 1 then you will automatically go into insert mode when you enter the
 buffer. This diverges from normal Vim behavior. If 0 you will still be in
@@ -288,7 +272,7 @@ normal mode.
 >
     let g:ConqueTerm_InsertOnEnter = 0
 <
-3.1.7 Close buffer when program exits                  *ConqueTerm_CloseOnEnd*
+3.1.6 Close buffer when program exits                  *ConqueTerm_CloseOnEnd*
 
 If you want your terminal buffer to be closed and permanently deleted when the 
 program running inside of it exits, set this option to 1. Otherwise the buffer
@@ -297,14 +281,14 @@ program output in insert mode.
 >
     let g:ConqueTerm_CloseOnEnd = 0
 <
-3.1.8 Show start messages                           *ConqueTerm_StartMessages*
+3.1.7 Show start messages                           *ConqueTerm_StartMessages*
 
 Display warning messages when starting up ConqueTerm if your system is
 configured incorrectly.
 >
     let g:ConqueTerm_StartMessages = 1
 <
-3.1.9 Regex for highlighting your prompt              *ConqueTerm_PromptRegex*
+3.1.8 Regex for highlighting your prompt              *ConqueTerm_PromptRegex*
 
 Use this regular expression for sytax highlighting your terminal prompt. Your
 terminal will generally run faster if you use Vim highlighting instead of 
@@ -313,21 +297,21 @@ syntax highlighting for the prompt line.
 >
     let g:ConqueTerm_PromptRegex = '^\w\+@[0-9A-Za-z_.-]\+:[0-9A-Za-z_./\~,:-]\+\$'
 <
-3.1.10 Choose Vim syntax type                              *ConqueTerm_Syntax*
+3.1.9 Choose Vim syntax type                               *ConqueTerm_Syntax*
 
 Set the buffer syntax. The default has highlighting for MySQL,
 but not much else.
 >
     let g:ConqueTerm_Syntax = 'conque_term'
 <
-3.1.11 The bell Vim message                              *ConqueTerm_ShowBell*
+3.1.10 The bell Vim message                              *ConqueTerm_ShowBell*
 
 You can choose whether you want Conque to echo the warning message 'BELL!'
 whenever the bell character is written to a Conque terminal.
 >
     let g:ConqueTerm_ShowBell = 0
 <
-3.1.12 Unfocused update time                  *ConqueTerm_UnfocusedUpdateTime*
+3.1.11 Unfocused update time                  *ConqueTerm_UnfocusedUpdateTime*
 
 Use this option to define how often in milliseconds you want Conque to
 update your terminals when you are not in insert mode. The value 0 (zero) 
@@ -336,7 +320,7 @@ when you are in normal mode.
 >
         let g:ConqueTerm_UnfocusedUpdateTime = 500
 >
-3.1.13 Focused update time                      *ConqueTerm_FocusedUpdateTime*
+3.1.12 Focused update time                      *ConqueTerm_FocusedUpdateTime*
 
 Use this option to define how often in milliseconds you want Conque to
 update the terminal in focus when you are in insert mode. The value 0 (zero)

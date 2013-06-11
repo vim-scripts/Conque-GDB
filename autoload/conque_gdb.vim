@@ -420,6 +420,7 @@ function! conque_gdb#open(...)
         catch
         endtry
         let s:is_gdb_startup = 0
+        file ConqueGDB
     endif
 endfunction
 
