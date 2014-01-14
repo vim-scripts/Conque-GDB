@@ -48,6 +48,7 @@ Usage:
 import vim
 import re
 import math
+import time
 
 
 class Conque(object):
@@ -141,7 +142,7 @@ class Conque(object):
             self.l = int(options['offset'])
 
         # init color
-        self.enable_colors = options['color'] and not CONQUE_FAST_MODE
+        self.enable_colors = int(options['color']) and not CONQUE_FAST_MODE
 
         # init tabstops
         self.init_tabstops()
@@ -1085,6 +1086,21 @@ class Conque(object):
     def abort(self):
         """ Forcefully end the process running in the terminal. """
         self.proc.signal(1)
+        self.poll_wait_for_proc(10);
+
+    def poll_wait_for_proc(self, tries):
+        """ Try 'tries' times to see if self.proc has become a zombie
+		such that we can reclaim its resources. Wait for 2ms before each try.
+		"""
+        pid = self.proc.getpid()
+        try:
+            for i in range(tries):
+                time.sleep(0.02)
+                if os.waitpid(pid, os.WNOHANG)[0]:
+                    break;
+        except:
+            pass
+        
 
 
 

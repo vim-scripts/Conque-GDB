@@ -527,14 +527,14 @@ function! conque_term#open(...) "{{{
 
         if s:platform == 'unix'
             " Initialize conque terminal object
-            execute s:py . ' ' . g:ConqueTerm_Var . ' = ' . term_type
-            execute s:py . ' ' . g:ConqueTerm_Var . ".open()"
+            sil execute s:py . ' ' . g:ConqueTerm_Var . ' = ' . term_type
+            sil execute s:py . ' ' . g:ConqueTerm_Var . ".open()"
         else
             " find python.exe and communicator
             let py_exe = conque_term#find_python_exe()
             let py_vim = s:scriptdirpy . 'conque_sole_communicator.py'
-            execute s:py . ' ' . g:ConqueTerm_Var . ' = ' . term_type
-            execute s:py . ' ' . g:ConqueTerm_Var . ".open()"
+            sil execute s:py . ' ' . g:ConqueTerm_Var . ' = ' . term_type
+            sil execute s:py . ' ' . g:ConqueTerm_Var . ".open()"
 
             if g:ConqueTerm_ColorMode == 'conceal'
                 call conque_term#init_conceal_color()
@@ -1089,7 +1089,7 @@ endfunction " }}}
 
 function! s:set_term_updatetime(time)
     if a:time
-        exe 'set updatetime=' . a:time
+        sil exe 'set updatetime=' . a:time
     endif
     let s:reset_updatetime = a:time
 endfunction
@@ -1121,7 +1121,7 @@ function! conque_term#on_blur(is_buffer) " {{{
         autocmd ConqueTerm CursorHoldI * call conque_term#read_all(1)
         autocmd ConqueTerm CursorHold * call conque_term#read_all(0)
     elseif s:reset_updatetime
-        exe 'set updatetime=' . s:save_updatetime
+        sil exe 'set updatetime=' . s:save_updatetime
     endif
 
     " call user defined functions
@@ -1375,7 +1375,7 @@ function! conque_term#exec_file() "{{{
         echomsg "Could not run " . current_file . ". Not an executable."
         return
     endif
-    exe ':ConqueTermSplit ' . current_file
+    sil exe ':ConqueTermSplit ' . current_file
 
 endfunction "}}}
 
@@ -1452,7 +1452,7 @@ function! s:term_obj.focus() dict " {{{
 
     let save_sb = &switchbuf
     sil set switchbuf=usetab
-    exe 'sb ' . self.buffer_number
+    sil exe 'sb ' . self.buffer_number
     sil exe ":set switchbuf=" . save_sb
     startinsert!
 
@@ -1552,7 +1552,7 @@ function! s:term_obj.close() dict " {{{
     " Reset update time if this is the last terminal
     if s:term_count <= 1
         if s:reset_updatetime
-            exe 'set updatetime=' . s:save_updatetime
+            sil exe 'set updatetime=' . s:save_updatetime
         endif
         let s:term_count = 0
     else
@@ -1642,16 +1642,16 @@ endfunction " }}}
 
 function! conque_term#load_python() " {{{
 
-    exec s:py . "file " . s:scriptdirpy . "conque_globals.py"
-    exec s:py . "file " . s:scriptdirpy . "conque.py"
+    sil exec s:py . "file " . s:scriptdirpy . "conque_globals.py"
+    sil exec s:py . "file " . s:scriptdirpy . "conque.py"
     if s:platform == 'windows'
-        exec s:py . "file " . s:scriptdirpy . "conque_win32_util.py"
-        exec s:py . "file " . s:scriptdirpy . "conque_sole_shared_memory.py"
-        exec s:py . "file " . s:scriptdirpy . "conque_sole.py"
-        exec s:py . "file " . s:scriptdirpy . "conque_sole_wrapper.py"
+        sil exec s:py . "file " . s:scriptdirpy . "conque_win32_util.py"
+        sil exec s:py . "file " . s:scriptdirpy . "conque_sole_shared_memory.py"
+        sil exec s:py . "file " . s:scriptdirpy . "conque_sole.py"
+        sil exec s:py . "file " . s:scriptdirpy . "conque_sole_wrapper.py"
     else
-        exec s:py . "file " . s:scriptdirpy . "conque_screen.py"
-        exec s:py . "file " . s:scriptdirpy . "conque_subprocess.py"
+        sil exec s:py . "file " . s:scriptdirpy . "conque_screen.py"
+        sil exec s:py . "file " . s:scriptdirpy . "conque_subprocess.py"
     endif
 
 endfunction " }}}
