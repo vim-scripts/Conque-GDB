@@ -236,6 +236,8 @@ function! s:open_file(fname, lineno, perm)
         endif
     elseif bufwinnr(s:src_buf) == -1
         sil exe get(g:conque_gdb_src_splits, g:ConqueGdb_SrcSplit, g:conque_gdb_default_split)
+    elseif winbufnr(s:src_bufwin) == s:src_buf
+        sil exe s:src_bufwin . 'wincmd w'
     else
         sil exe bufwinnr(s:src_buf) . 'wincmd w'
     endif
@@ -243,7 +245,7 @@ function! s:open_file(fname, lineno, perm)
     sil exe 'noautocmd ' . l:method
 
     let s:src_buf = bufnr("%")
-    let s:src_bufwin = bufwinnr("%")
+    let s:src_bufwin = winnr()
 
     if l:opened_by_gdb
         let s:opened_buffers[s:src_buf] = 1
@@ -499,8 +501,12 @@ endfunction
 " Called on BufWinEnter to find out when the user opens a new buffer in the
 " source window. Use this window for source code when break points are hit.
 function! s:buf_win_enter()
-    if bufwinnr("%") == s:src_bufwin
-        let s:src_buf = bufnr("%")
+    if winnr() == s:src_bufwin
+        if bufwinnr(s:src_buf) != -1
+            let s:src_bufwin = bufwinnr(s:src_buf)
+        else
+            let s:src_buf = bufnr("%")
+        endif
     endif
 endfunction
 
