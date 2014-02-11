@@ -994,13 +994,11 @@ endfunction " }}}
 function! s:buffer_update(insert_mode) "{{{
     " restart updatetime
     if a:insert_mode
-        "let p = getpos('.')
         if col(".") == col("$")
-          sil exe 'call feedkeys("\<Right>", "n")'
+          call feedkeys("\<Right>", "n")
         else
-          sil exe 'call feedkeys("\<Right>\<Left>", "n")'
+          call feedkeys("\<Right>\<Left>", "n")
         endif
-        "call setpos('.', p)
     else
         call feedkeys("f\e", "n")
     endif

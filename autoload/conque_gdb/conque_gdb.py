@@ -179,6 +179,10 @@ class ConqueGdb(Conque):
             if bp.enabled == 'y':
                 enabled = 'y'
                 break
+
+        old = self.lookup_sign_ids.get(line)
+        if old:
+            vim.command("call conque_gdb#remove_breakpoint_sign('%d','%s')" % (old[0], self.convert_to_vim_file(bp.filename)))
         self.lookup_sign_ids[line] = (self.next_sign_id, enabled)
         bp = breakpoints[0]
         vim.command("call conque_gdb#set_breakpoint_sign('%d','%s','%s','%s')" % (self.next_sign_id, self.convert_to_vim_file(bp.filename), bp.lineno, enabled))
@@ -189,9 +193,9 @@ class ConqueGdb(Conque):
         vim.command("call conque_gdb#remove_breakpoint_sign('%d','%s')" % (id, self.convert_to_vim_file(fname)))
 
     def unplace_sign(self, line):
-            id = self.lookup_sign_ids[line][0]
-            self.remove_sign(id, line)
-            del self.lookup_sign_ids[line]
+        id = self.lookup_sign_ids[line][0]
+        self.remove_sign(id, line)
+        del self.lookup_sign_ids[line]
 
     def reset_registered_breakpoints(self):
         new_breakpoints = RegisteredBpDict()

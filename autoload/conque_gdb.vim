@@ -82,7 +82,7 @@ function! s:escape_to_py_file(fname)
     return l:fname
 endfunction
 
-" Heoric attempt to escape file names before opening them for edit/view
+" Heuristic attempt to escape file names before opening them for edit/view
 function! s:escape_to_shell_file(fname)
     if s:platform != 'win'
         let l:fname = substitute(a:fname, '\\', '\\\\', 'g')
@@ -170,6 +170,8 @@ function! conque_gdb#remove_prev_pointer()
             sil exe 'sign unplace ' . s:sign_pointer_id . ' buffer=' . bufnr(l:bufname)
         catch
         endtry
+
+		let s:sign_file = ''
     endif
 endfunction
 
@@ -186,7 +188,6 @@ function! conque_gdb#update_pointer(fname, lineno)
     let s:sign_line = a:lineno
 endfunction
 
-" ...
 function! s:buf_update()
     if s:platform != 'win'
         if col(".") == col("$")
@@ -401,7 +402,6 @@ function! conque_gdb#open(...)
         else
             let l:extra = ' -x ' . s:SCRIPT_DIR . 'gdbinit_no_confirm.gdb '
         endif
-        "endif
 
         " Don't let user use the TUI feature. It does not work with ConqueGdb.
         let l:user_args = get(a:000, 0, '')
