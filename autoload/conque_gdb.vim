@@ -213,7 +213,6 @@ endfunction
 " a:perm specifies how to open the file 
 " read only ('r') or read-write ('w').
 function! s:open_file(fname, lineno, perm)
-    
     let l:fbufname = bufname(a:fname)
     if l:fbufname == "" || !bufloaded(bufnr(l:fbufname))
         let l:opened_by_gdb = 1
@@ -270,8 +269,6 @@ endfunction
 " Move the gdb break point sign to file a:fname, line number a:lineno
 " The "\n" character is interpreted as "'".
 function! conque_gdb#breakpoint(fname, lineno)
-    let l:last_buf = bufnr("%")
-
     let l:fname_py = s:file_from_python(a:fname)
     let l:lineno = a:lineno
 
@@ -287,20 +284,21 @@ function! conque_gdb#breakpoint(fname, lineno)
 
     if l:perm != ''
         call s:open_file(l:fname, l:lineno, l:perm)
-        sil exe 'noautocmd ' . bufwinnr(s:src_buf) . 'wincmd w'
+
+        sil exe 'noautocmd ' . s:src_bufwin . 'wincmd w'
         sil exe ':' . a:lineno
         sil normal! zz
+
+        call conque_gdb#update_pointer(l:fname_py, l:lineno) 
+        call s:buf_update()
+
+        sil exe 'noautocmd wincmd p'
     else
         " Gdb should detect that the file can't be opened. This should not happen.
-        echohl WarningMsg | echomsg 'Unable to open file ' . a:fname | echohl None
+        echohl WarningMsg | echomsg 'ConqueGdb: Unable to open file ' . a:fname | echohl None
         let l:fname = ''
         let l:lineno = 0
     endif
-
-    call conque_gdb#update_pointer(l:fname_py, l:lineno) 
-
-    call s:buf_update()
-    sil exe 'noautocmd ' . bufwinnr(l:last_buf) . 'wincmd w'
 endfunction
 
 " Get command to execute gdb on Unix
@@ -390,7 +388,7 @@ function! conque_gdb#open(...)
         " Find out if gdb was found on the system
         if s:gdb_command == ''
             echohl WarningMsg
-            echomsg "Unable to find gdb executable, see :help ConqueGdb_GdbExe for more information."
+            echomsg "ConqueGdb: Unable to find gdb executable, see :help ConqueGdb_GdbExe for more information."
             echohl None
             return
         endif
@@ -407,7 +405,7 @@ function! conque_gdb#open(...)
         let l:user_args = get(a:000, 0, '')
         if l:user_args =~ '\(.*\s\+\|^\)-\+tui\($\|\s\+.*\)'
             echohl WarningMsg
-            echomsg 'GDB Text User Interface (--tui) is not supported by ConqueGdb'
+            echomsg 'ConqueGdb: GDB Text User Interface (--tui) is not supported'
             echohl None
             return
         endif
@@ -421,6 +419,7 @@ function! conque_gdb#open(...)
         endtry
         let s:is_gdb_startup = 0
     endif
+	let s:src_bufwin = winnr("#")
 endfunction
 
 " Send a command to the gdb subprocess.
@@ -430,13 +429,13 @@ function! conque_gdb#command(cmd)
         return
     endif
 
-    let l:last = bufnr("%")
     if bufwinnr(s:gdb.buffer_number) == -1
-        let s:src_buf = l:last
+        let s:src_buf = bufnr("%")
+        let s:src_bufwin = winnr()
         sil exe 'noautocmd ' . get(g:conque_gdb_src_splits, g:ConqueGdb_SrcSplit, g:conque_gdb_default_split)
         sil exe 'noautocmd wincmd w'
         sil exe 'noautocmd buffer ' . s:gdb.buffer_number
-        let s:src_bufwin = bufwinnr(l:last)
+        sil exe 'noautocmd wincmd p'
     endif
     
     sil exe 'noautocmd ' . bufwinnr(s:gdb.buffer_number) . 'wincmd w'
@@ -445,11 +444,7 @@ function! conque_gdb#command(cmd)
         sleep 50ms
     endif
     call s:gdb.read(50)
-    if bufwinnr(l:last) == -1
-        sil exe 'noautocmd ' . bufwinnr(s:src_buf) . 'wincmd w'
-    else
-        sil exe 'noautocmd ' . bufwinnr(l:last) . 'wincmd w'
-    endif
+	sil exe 'noautocmd wincmd p'
 endfunction
 
 " print word under cursor.
