@@ -15,7 +15,7 @@ GDB_EXIT_REGEX = re.compile('.*' + GDB_EXIT_MARK + '.*')
 
 GDB_PROMPT_REGEX = re.compile('.*' + GDB_PROMPT_MARK + '.*')
 
-GET_BPS_REGEX = re.compile('(bkpt\s*?\=\s*?\{.*?(?:["].*?["])+?\s*?\}(?!\s*?,\s*?\{).*?)', re.I)
+GET_BPS_REGEX = re.compile('(bkpt\s*?\=\s*?\{.*?(?:["].*?["])+?\s*?\]?\s*?\}(?!\s*?,\s*?\{).*?)', re.I)
 
 GET_ATTR_STR = '\s*?\=\s*?["](.*?)["].*?'
 
@@ -200,7 +200,7 @@ class ConqueGdb(Conque):
     def reset_registered_breakpoints(self):
         new_breakpoints = RegisteredBpDict()
         changed_lines = set()
-
+        
         bps = GET_BPS_REGEX.findall(self.prompt.replace('\\"', '\\x1a'))
         for bp in bps:
             try:
