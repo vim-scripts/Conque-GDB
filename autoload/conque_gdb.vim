@@ -283,6 +283,7 @@ function! conque_gdb#breakpoint(fname, lineno)
     let l:fname = s:escape_to_shell_file(l:fname_py)
 
     if l:perm != ''
+        let l:original_win = winnr()
         call s:open_file(l:fname, l:lineno, l:perm)
 
         sil exe 'noautocmd ' . s:src_bufwin . 'wincmd w'
@@ -292,7 +293,7 @@ function! conque_gdb#breakpoint(fname, lineno)
         call conque_gdb#update_pointer(l:fname_py, l:lineno) 
         call s:buf_update()
 
-        sil exe 'noautocmd wincmd p'
+        sil exe 'noautocmd ' . l:original_win . 'wincmd w'
     else
         " Gdb should detect that the file can't be opened. This should not happen.
         echohl WarningMsg | echomsg 'ConqueGdb: Unable to open file ' . a:fname | echohl None
