@@ -82,7 +82,7 @@ function! s:escape_to_py_file(fname)
     return l:fname
 endfunction
 
-" Heuristic attempt to escape file names before opening them for edit/view
+" Attempt to escape file names before opening them for edit/view
 function! s:escape_to_shell_file(fname)
     if s:platform != 'win'
         let l:fname = substitute(a:fname, '\\', '\\\\', 'g')
@@ -283,6 +283,8 @@ function! conque_gdb#breakpoint(fname, lineno)
     let l:fname = s:escape_to_shell_file(l:fname_py)
 
     if l:perm != ''
+        let l:last_win = winnr()
+        let l:last_buf = bufnr("%")
         call s:open_file(l:fname, l:lineno, l:perm)
 
         sil exe 'noautocmd ' . s:src_bufwin . 'wincmd w'
@@ -293,6 +295,15 @@ function! conque_gdb#breakpoint(fname, lineno)
         call s:buf_update()
 
         sil exe 'noautocmd wincmd p'
+        if bufnr("%") != l:last_buf
+            if l:last_buf != winbufnr(l:last_win)
+                let l:last = bufwinnr(l:last_buf)
+                if l:last != -1
+                    let l:last_win = l:last
+                endif
+            endif
+            sil exe 'noautocmd ' . l:last_win . ' wincmd w'
+        endif
     else
         " Gdb should detect that the file can't be opened. This should not happen.
         echohl WarningMsg | echomsg 'ConqueGdb: Unable to open file ' . a:fname | echohl None

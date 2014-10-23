@@ -103,7 +103,7 @@ class ConqueGdb(Conque):
     registered_breakpoints = RegisteredBpDict()
 
     # Mapping from linenumber + filename to a tuple containing the id of the sign 
-    # placed there and whether the breakpoint is enebled ('y') or disabled ('n')
+    # placed there and whether the breakpoint is enabled ('y') or disabled ('n')
     lookup_sign_ids = dict()
 
     # Id number of the next sign to place. Start from 15607 FTW!

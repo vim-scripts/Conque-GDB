@@ -7,7 +7,7 @@ This help file explains the Conque GDB Vim plugin.
 Introduction
 
 The Conque GDB plugin extends the Conque (Conque Term) plugin. Like Conque
-Term Conque GDB is a terminal emulator. The |ConqueGdb|, |ConqueGdbSplit|,
+Term, Conque GDB is a terminal emulator. The |ConqueGdb|, |ConqueGdbSplit|,
 |ConqueGdbVsplit| and |ConqueGdbTab| commands will turn a Vim buffer into a
 GDB command line interface (CLI).
 
@@ -211,13 +211,13 @@ keyboard mappings to work properly. See the help file |conque_term.txt|.
                                              *g:ConqueGdb_Leader*
 
 This option specifies which keyboard key is used as prefix for the Conque GDB
-keyboard mappings described below. You can specify this to anything you want,
-however you can freely modify any of the keyboard mapping regardless of the
-value of |g:ConqueGdb_Leader|. By default it is:
+keyboard mappings described below. By default it is:
 >
     let g:ConqueGdb_Leader = '<Leader>'
 >
-Note that |<Leader>| is usually defined as \ (backslash).
+Note that |<Leader>| is usually defined as \ (backslash). You don't have to
+use the |g:ConqueGdb_Leader| when defining new keyboard mappings as described
+below.
 
 3.4.2 Run program mapping                    *conque-gdb-run-mapping*
                                              *g:ConqueGdb_Run*
