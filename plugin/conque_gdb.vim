@@ -72,6 +72,9 @@ endif
 if !exists('g:ConqueGdb_Backtrace')
     let g:ConqueGdb_Backtrace = g:ConqueGdb_Leader . 't'
 endif
+if !exists('g:ConqueGdb_SaveHistory')
+    let g:ConqueGdb_SaveHistory = 0
+endif
 
 " Commands to open conque gdb
 command! -nargs=* -complete=file ConqueGdb call conque_gdb#open(<q-args>, [

@@ -200,7 +200,7 @@ class ConqueGdb(Conque):
     def reset_registered_breakpoints(self):
         new_breakpoints = RegisteredBpDict()
         changed_lines = set()
-        
+
         bps = GET_BPS_REGEX.findall(self.prompt.replace('\\"', '\\x1a'))
         for bp in bps:
             try:
@@ -249,7 +249,7 @@ class ConqueGdb(Conque):
     def finalize_prompt(self):
         changed_lines = self.reset_registered_breakpoints()
         self.apply_breakpoint_changes(changed_lines)
-        
+
     def place_file_breakpoints(self, filename):
         files_dict = self.registered_breakpoints.get_lookups()
         bp_dict = self.registered_breakpoints.get_file_breakpoints(filename)

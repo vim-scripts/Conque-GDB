@@ -230,16 +230,19 @@ function! s:open_file(fname, lineno, perm)
 
     if bufwinnr(s:src_buf) == bufwinnr(s:gdb.buffer_number)
         if !l:opened_by_gdb && bufwinnr(l:fbufname) != -1
-            sil exe bufwinnr(l:fbufname) . 'wincmd w'
+            sil noautocmd wincmd p
+            sil exe 'noautocmd ' . bufwinnr(l:fbufname) . 'wincmd w'
         else
-            sil exe get(g:conque_gdb_src_splits, g:ConqueGdb_SrcSplit, g:conque_gdb_default_split)
+            sil exe 'noautocmd ' . get(g:conque_gdb_src_splits, g:ConqueGdb_SrcSplit, g:conque_gdb_default_split)
         endif
     elseif bufwinnr(s:src_buf) == -1
         sil exe get(g:conque_gdb_src_splits, g:ConqueGdb_SrcSplit, g:conque_gdb_default_split)
     elseif winbufnr(s:src_bufwin) == s:src_buf
-        sil exe s:src_bufwin . 'wincmd w'
+        sil noautocmd wincmd p
+        sil exe 'noautocmd ' . s:src_bufwin . 'wincmd w'
     else
-        sil exe bufwinnr(s:src_buf) . 'wincmd w'
+        sil noautocmd wincmd p
+        sil exe 'noautocmd ' . bufwinnr(s:src_buf) . 'wincmd w'
     endif
 
     sil exe 'noautocmd ' . l:method
@@ -287,6 +290,7 @@ function! conque_gdb#breakpoint(fname, lineno)
         let l:last_buf = bufnr("%")
         call s:open_file(l:fname, l:lineno, l:perm)
 
+        sil noautocmd wincmd p
         sil exe 'noautocmd ' . s:src_bufwin . 'wincmd w'
         sil exe ':' . a:lineno
         sil normal! zz
@@ -294,16 +298,14 @@ function! conque_gdb#breakpoint(fname, lineno)
         call conque_gdb#update_pointer(l:fname_py, l:lineno) 
         call s:buf_update()
 
-        sil exe 'noautocmd wincmd p'
-        if bufnr("%") != l:last_buf
-            if l:last_buf != winbufnr(l:last_win)
-                let l:last = bufwinnr(l:last_buf)
-                if l:last != -1
-                    let l:last_win = l:last
-                endif
+        if l:last_buf != winbufnr(l:last_win)
+            let l:last = bufwinnr(l:last_buf)
+            if l:last != -1
+                let l:last_win = l:last
             endif
-            sil exe 'noautocmd ' . l:last_win . ' wincmd w'
         endif
+        sil noautocmd wincmd p
+        sil exe 'noautocmd ' . l:last_win . ' wincmd w'
     else
         " Gdb should detect that the file can't be opened. This should not happen.
         echohl WarningMsg | echomsg 'ConqueGdb: Unable to open file ' . a:fname | echohl None
@@ -448,14 +450,33 @@ function! conque_gdb#command(cmd)
         sil exe 'noautocmd buffer ' . s:gdb.buffer_number
         sil exe 'noautocmd wincmd p'
     endif
-    
-    sil exe 'noautocmd ' . bufwinnr(s:gdb.buffer_number) . 'wincmd w'
-    call s:gdb.writeln(a:cmd)
+
+    let l:win = winnr()
+    let l:buf_win = bufwinnr(s:gdb.buffer_number)
+    if l:win != l:buf_win
+        sil noautocmd wincmd p
+        sil exe 'noautocmd ' . l:buf_win . 'wincmd w'
+        let l:go_back = 1
+    else
+        let l:go_back = 0
+    endif
+
+    if g:ConqueGdb_SaveHistory
+        let l:cmd_prefix = ''
+    else
+        let l:cmd_prefix = 'server '
+    endif
+    call s:gdb.writeln(l:cmd_prefix . a:cmd)
+
     if s:platform == 'win'
         sleep 50ms
     endif
     call s:gdb.read(50)
-	sil exe 'noautocmd wincmd p'
+
+    if l:go_back
+        sil noautocmd wincmd p
+	    sil exe 'noautocmd ' . l:win . 'wincmd w'
+    endif
 endfunction
 
 " print word under cursor.

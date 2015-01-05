@@ -1471,11 +1471,10 @@ function! s:term_obj.read(...) dict " {{{
             return ''
         endif
 
-        let last_buf = bufnr("%")
-        let prev_buf = bufnr("#")
         let last_win = winnr()
-        let prev_win = winnr("#")
 
+        " Keep users previous window
+        sil noautocmd wincmd p
         " Focus to the terminal window
         sil exe 'noautocmd ' . term_win . 'wincmd w'
 
@@ -1500,27 +1499,10 @@ function! s:term_obj.read(...) dict " {{{
     if update_buffer
         sil exec s:py . ' ' . self.var . '.update_window()'
 
-        if bufwinnr(last_buf) != -1 && last_buf != winbufnr(last_win)
-            let last_win = bufwinnr(last_buf)
-        endif
-        if bufwinnr(prev_buf) != -1 && prev_buf != winbufnr(prev_win)
-            let prev_win = bufwinnr(prev_buf)
-        endif
-
         " First go to the users previous window (#)
-        sil exe 'noautocmd ' . prev_win . 'wincmd w'
+        sil noautocmd wincmd p
         " Next go to the users last window (%)
         sil exe 'noautocmd ' . last_win . 'wincmd w'
-        if prev_win == last_win
-            " If there was no previous window (#) before switching to the ConqueTerm window
-            " we want to bahave like vim normally would, in particular we don't want the ConqueTerm
-			" window to be the previous window (#).
-			" So remove the ConqueTerm window as previous window with the following hack.
-            sil noautocmd split
-            sil noautocmd edit %
-            sil noautocmd close
-            sil exe 'set filetype=' . &filetype
-        endif
     endif
 
     return output
