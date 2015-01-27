@@ -65,6 +65,9 @@ let g:conque_gdb_gdb_py_support = 0
 " and ('ConqueSoleGdb()') for Windows
 let s:term_object = ''
 
+" Original path to the GDB executable
+let s:orig_gdb_path = g:ConqueGdb_GdbExe
+
 " Define the current gdb break point sign
 sil exe 'sign define ' . s:SIGN_POINTER . ' linehl=Search'
 
@@ -401,7 +404,7 @@ function! conque_gdb#open(...)
         " Find out if gdb was found on the system
         if s:gdb_command == ''
             echohl WarningMsg
-            echomsg "ConqueGdb: Unable to find gdb executable, see :help ConqueGdb_GdbExe for more information."
+            echomsg "ConqueGdb: Unable to find gdb executable, see :help ConqueGdb_GdbExe and :help ConqueGdbExe for more information."
             echohl None
             return
         endif
@@ -585,6 +588,16 @@ function! conque_gdb#load_python()
             let s:term_object = 'ConqueSoleGdb()'
             exe s:py . "file " . s:SCRIPT_DIR . "conque_sole_gdb.py"
         endif
+    endif
+    let s:gdb_command = s:get_gdb_command()
+endfunction
+
+" Change path to GDB executable at runtime.
+function! conque_gdb#change_gdb_exe(gdb_path)
+    if a:gdb_path == ""
+        let g:ConqueGdb_GdbExe = s:orig_gdb_path
+    else
+        let g:ConqueGdb_GdbExe = a:gdb_path
     endif
     let s:gdb_command = s:get_gdb_command()
 endfunction

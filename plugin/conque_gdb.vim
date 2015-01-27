@@ -91,11 +91,14 @@ command! -nargs=* -complete=file ConqueGdbTab call conque_gdb#open(<q-args>, [
         \ 'buffer ' . bufnr("%"),
         \ 'wincmd w'])
 
+" Command to change path to GDB executable at runtime
+command! -nargs=? -complete=file ConqueGdbExe call conque_gdb#change_gdb_exe(<q-args>)
+
 " Command to delete the buffers ConqueGdb has opened
 command! -nargs=0 ConqueGdbBDelete call conque_gdb#delete_opened_buffers()
 
 " Command to write a command to the gdb tertminal
-command! -nargs=* ConqueGdbCommand call conque_gdb#command(<q-args>)
+command! -nargs=+ ConqueGdbCommand call conque_gdb#command(<q-args>)
 
 if g:conque_gdb_gdb_py_support
     exe 'nnoremap <silent> ' . g:ConqueGdb_ToggleBreak . ' :call conque_gdb#toggle_breakpoint(expand("%:p"), line("."))<CR>'

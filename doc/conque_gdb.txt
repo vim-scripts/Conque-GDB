@@ -14,8 +14,8 @@ GDB command line interface (CLI).
 When debugging a program with one of the |ConqueGdb|* commands, Conque GDB will
 automatically open the appropriate source files when break points are hit,
 and highlight the line where program execution has stopped. And if you install
-Conque GDB on a Unix system with GDB 7.0+ with full python support, Conque GDB
-will place signs on lines to mark where you have placed break points.
+Conque GDB on a Unix system with GDB 7.0+ compiled with python support, Conque
+GDB will place signs on lines to mark where you have placed break points.
 
 Conque GDB ships with a modified version of Conque Term 2.3. This new version
 of Conque Term comes with new options and new features. Please see the
@@ -37,6 +37,7 @@ Contents
    2.1 Opening Conque GDB CLI                |conque-gdb-open|
    2.2 Delete unneeded buffers               |conque-gdb-delete-buffers|
    2.3 Send command to GDB                   |conque-gdb-command|
+   2.4 Send command to GDB                   |conque-gdb-exe|
 3. Options                                   |conque-gdb-options|
    3.1 GDB Source code split                 |conque-gdb-src-split|
    3.2 Path to GDB                           |conque-gdb-path|
@@ -79,7 +80,8 @@ Even tough you have GDB 7.0+ installed on your system it is not 100% sure that
 it will support all the Conque GDB features, namely the ability to place signs
 on lines to mark where break points are currently placed. If you encounter
 this problem with GDB 7.0+ installed on your system, then go ahead and build
-GDB 7.0+ from source with the '--with-python' configuration option specified.
+GDB 7.0+ from source with python support by specifying the '--with-python'
+configuration option.
 
 1.2 Requirements for Windows                 *conque-gdb-windows-requirements*
 
@@ -158,6 +160,18 @@ command to GDB use |ConqueGdbCommand| to send any command to GDB. E.g.
 This will only work properly if the |ConqueTerm_ReadUnfocused| option is
 enabled. See the help file |conque_term.txt| for information.
 
+2.4 Set path to GDB                          *conque-gdb-exe*
+                                             *ConqueGdbExe*
+
+If switch is needed between different GDB executables, for instance, during
+cross-development, you can specify path to a GDB executable as follows:
+>
+    :ConqueGdbExe /path/to/gdb-cross
+    :ConqueGdbExe
+>
+When zero arguments are given to the |ConqueGdbExe| command, Conque GDB will
+use the default path to GDB, as specified by the |g:ConqueGdb_GdbExe| option
+on startup. See |g:ConqueGdb_GdbExe|.
 ==============================================================================
 
 3. Options                                   *conque-gdb-options*
@@ -184,12 +198,14 @@ GDB CLI window.
 If the |ConqueGdb| commands can't find GDB in the system path, then you might
 need to specify the path to the GDB executable manually. However on Windows
 Conque will also look for GDB in C:\MinGW\bin. To define the path to the GDB
-executable you can change the value of ConqueGdb_GdbExe. By default this is:
+executable you can change the value of |g:ConqueGdb_GdbExe|. By default this
+option is:
 >
    let g:ConqueGdb_GdbExe = ''
 <
 Note that you have to restart Vim before changes to |g:ConqueGdb_GdbExe| are
-recognized.
+recognized. If you would like to change path to the GDB executable at runtime,
+use the |ConqueGdbExe| command.
 
 3.3 Disable GDB commands                     *conque-gdb-disable*
                                              *g:ConqueGdb_Disable*
