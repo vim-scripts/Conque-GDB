@@ -43,18 +43,19 @@ Contents
    3.2 Path to GDB                           |conque-gdb-path|
    3.3 Disable GDB commands                  |conque-gdb-disable|
    3.4 Save command history                  |conque-gdb-save-history|
-   3.5 Keyboard Mappings                     |conque-gdb-mappings|
-       3.5.1 Mappings leader                 |conque-gdb-leader|
-       3.5.2 Run program mapping             |conque-gdb-run-mapping|
-       3.5.3 Continue program mapping        |conque-gdb-continue-mapping|
-       3.5.4 Next line mapping               |conque-gdb-next-mapping|
-       3.5.5 Step line mapping               |conque-gdb-step-mapping|
-       3.5.6 Print identifier under cursor   |conque-gdb-print-mapping|
-       3.5.7 Toggle break point mapping      |conque-gdb-toggle-mapping|
-       3.5.8 Set break point mapping         |conque-gdb-break-mapping|
-       3.5.9 Delete break point mapping      |conque-gdb-delete-break-mapping|
-       3.5.10 Finish mapping                 |conque-gdb-finish-mapping|
-       3.5.11 Backtrace mapping              |conque-gdb-backtrace-mapping|
+   3.5 Set Read Timeout For GDB Resposes     |conque-gdb-read-timeout|
+   3.6 Keyboard Mappings                     |conque-gdb-mappings|
+       3.6.1 Mappings leader                 |conque-gdb-leader|
+       3.6.2 Run program mapping             |conque-gdb-run-mapping|
+       3.6.3 Continue program mapping        |conque-gdb-continue-mapping|
+       3.6.4 Next line mapping               |conque-gdb-next-mapping|
+       3.6.5 Step line mapping               |conque-gdb-step-mapping|
+       3.6.6 Print identifier under cursor   |conque-gdb-print-mapping|
+       3.6.7 Toggle break point mapping      |conque-gdb-toggle-mapping|
+       3.6.8 Set break point mapping         |conque-gdb-break-mapping|
+       3.6.9 Delete break point mapping      |conque-gdb-delete-break-mapping|
+       3.6.10 Finish mapping                 |conque-gdb-finish-mapping|
+       3.6.11 Backtrace mapping              |conque-gdb-backtrace-mapping|
 4. Custom key mappings                       |conque-gdb-custom-key-mappings|
 
 ==============================================================================
@@ -225,8 +226,18 @@ issued by keyboard mappings when pressing <Up> to view previous GDB commands
 in the CLI window.
 >
     let g:ConqueGdb_SaveHistory = 0
-<
-3.5 Keyboard Mappings                        *conque-gdb-mappings*
+
+3.5 Set Read Timeout For GDB Resposes        *conque-gdb-read-timeout*
+                                             *g:ConqueGdb_ReadTimeout*
+
+This will allow you to set the timeout before Conque GDB tries to read output
+from GDB. You may have to change the time depending on the amount of output
+GDB makes and system performance. The default is 50 milliseconds.
+
+    let g:ConqueGdb_ReadTimeout = 50
+
+
+3.6 Keyboard Mappings                        *conque-gdb-mappings*
 
 Conque GDB defines keyboard mappings to some of the most common gdb commands.
 By default these Keyboard mappings use the |mapleader| (|<leader>|) as prefix.
@@ -235,7 +246,7 @@ However you can change this with the |g:ConqueGdb_Leader| option.
 Note that you need to enable the |ConqueTerm_ReadUnfocused| option for the
 keyboard mappings to work properly. See the help file |conque_term.txt|.
 
-3.5.1 Mappings leader                        *conque-gdb-leader*
+3.6.1 Mappings leader                        *conque-gdb-leader*
                                              *g:ConqueGdb_Leader*
 
 This option specifies which keyboard key is used as prefix for the Conque GDB
@@ -247,7 +258,7 @@ Note that |<Leader>| is usually defined as \ (backslash). You don't have to
 use the |g:ConqueGdb_Leader| when defining new keyboard mappings as described
 below.
 
-3.5.2 Run program mapping                    *conque-gdb-run-mapping*
+3.6.2 Run program mapping                    *conque-gdb-run-mapping*
                                              *g:ConqueGdb_Run*
 
 This option defines the keyboard mapping used to issue the GDB command run
@@ -255,7 +266,7 @@ from any buffer. By default this is:
 >
     let g:ConqueGdb_Run = g:ConqueGdb_Leader . 'r'
 >
-3.5.3 Continue program mapping               *conque-gdb-continue-mapping*
+3.6.3 Continue program mapping               *conque-gdb-continue-mapping*
                                              *g:ConqueGdb_Continue*
 
 This option defines the mapping used to issue the continue command. This
@@ -263,21 +274,21 @@ is by default:
 >
     let g:ConqueGdb_Continue = g:ConqueGdb_Leader . 'c'
 >
-3.5.4 Next line mapping                      *conque-gdb-next-mapping*
+3.6.4 Next line mapping                      *conque-gdb-next-mapping*
                                              *g:ConqueGdb_Next*
 
 Mapping to issue GDB command next. Default:
 >
     let g:ConqueGdb_Next = g:ConqueGdb_Leader . 'n'
 >
-3.5.5 Step line mapping                      *conque-gdb-step-mapping*
+3.6.5 Step line mapping                      *conque-gdb-step-mapping*
                                              *g:ConqueGdb_Step*
 
 Mapping to send the step command to GDB. Default:
 >
     let g:ConqueGdb_Step = g:ConqueGdb_Leader . 's'
 >
-3.5.6 Print identifier under cursor          *conque-gdb-print-mapping*
+3.6.6 Print identifier under cursor          *conque-gdb-print-mapping*
                                              *g:ConqueGdb_Print*
 
 This mapping is used to issue the print GDB command, to print value of the
@@ -285,7 +296,7 @@ identifier under the cursor. By default it is:
 >
     let g:ConqueGdb_Print = g:ConqueGdb_Leader . 'p'
 >
-3.5.7 Toggle break point mapping             *conque-gdb-toggle-mapping*
+3.6.7 Toggle break point mapping             *conque-gdb-toggle-mapping*
                                              *g:ConqueGdb_ToggleBreak*
 
 This is a special mapping used to toggle a break point on the current line.
@@ -298,7 +309,7 @@ support. See |conque-gdb-unix-requirements|. By default this mapping is:
 >
     let g:ConqueGdb_ToggleBreak = g:ConqueGdb_Leader . 'b'
 >
-3.5.8 Set break point mapping                *conque-gdb-break-mapping*
+3.6.8 Set break point mapping                *conque-gdb-break-mapping*
                                              *g:ConqueGdb_SetBreak*
 
 This mapping is specific to Conque GDB installations on Windows and Unix
@@ -309,7 +320,7 @@ line. By default this mapping is:
 >
     let g:ConqueGdb_SetBreak = g:ConqueGdb_Leader . 'b'
 >
-3.5.9 Delete break point mapping             *conque-gdb-delete-break-mapping*
+3.6.9 Delete break point mapping             *conque-gdb-delete-break-mapping*
                                              *g:ConqueGdb_DeleteBreak*
 
 This mapping is specific to Conque GDB installations on Windows and Unix
@@ -320,14 +331,14 @@ line. Default:
 >
     let g:ConqueGdb_DeleteBreak = g:ConqueGdb_Leader . 'd'
 >
-3.5.10 Finish mapping                              *conque-gdb-finish-mapping*
+3.6.10 Finish mapping                              *conque-gdb-finish-mapping*
                                                    *g:ConqueGdb_Finish*
 
 Mapping to issue the finish command. Default:
 >
     let g:ConqueGdb_Finish = g:ConqueGdb_Leader . 'f'
 >
-3.5.11 Backtrace mapping                        *conque-gdb-backtrace-mapping*
+3.6.11 Backtrace mapping                        *conque-gdb-backtrace-mapping*
                                                 *g:ConqueGdb_Backtrace*
 
 Mapping to execute the backtrace command. By default it is:

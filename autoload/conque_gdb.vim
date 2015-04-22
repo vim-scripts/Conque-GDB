@@ -472,9 +472,9 @@ function! conque_gdb#command(cmd)
     call s:gdb.writeln(l:cmd_prefix . a:cmd)
 
     if s:platform == 'win'
-        sleep 50ms
+        exe 'sleep ' . g:ConqueGdb_ReadTimeout . 'ms'
     endif
-    call s:gdb.read(50)
+    call s:gdb.read(g:ConqueGdb_ReadTimeout)
 
     if l:go_back
         sil noautocmd wincmd p

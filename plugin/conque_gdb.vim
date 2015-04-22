@@ -72,6 +72,9 @@ endif
 if !exists('g:ConqueGdb_Backtrace')
     let g:ConqueGdb_Backtrace = g:ConqueGdb_Leader . 't'
 endif
+if !exists('g:ConqueGdb_ReadTimeout')
+    let g:ConqueGdb_ReadTimeout = 50
+endif
 if !exists('g:ConqueGdb_SaveHistory')
     let g:ConqueGdb_SaveHistory = 0
 endif
