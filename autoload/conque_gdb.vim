@@ -174,7 +174,7 @@ function! conque_gdb#remove_prev_pointer()
         catch
         endtry
 
-		let s:sign_file = ''
+        let s:sign_file = ''
     endif
 endfunction
 
@@ -328,7 +328,8 @@ function! s:get_unix_gdb()
         return ''
     endif
 
-    sil let l:gdb_py_support = system(l:gdb_exe . ' -q -batch -ex "python print(\"PYYES\")"')
+    let pyresp = "'PYYES'"
+    sil let l:gdb_py_support = system(l:gdb_exe . ' -q -batch -ex "python print(' . pyresp . ')"')
     if l:gdb_py_support =~ ".*PYYES\n.*"
         " Gdb has python support
         let g:conque_gdb_gdb_py_support = 1
@@ -430,12 +431,12 @@ function! conque_gdb#open(...)
         let s:is_gdb_startup = 1
         try
             let s:gdb = conque_term#open(l:gdb_cmd, l:start_cmds, get(a:000, 2, 0), get(a:000, 3, 1), s:term_object)
-			sil exe 'file ConqueGDB\#' . s:gdb.idx
+            sil exe 'file ConqueGDB\#' . s:gdb.idx
         catch
         endtry
         let s:is_gdb_startup = 0
     endif
-	let s:src_bufwin = winnr("#")
+    let s:src_bufwin = winnr("#")
 endfunction
 
 " Send a command to the gdb subprocess.
@@ -478,7 +479,7 @@ function! conque_gdb#command(cmd)
 
     if l:go_back
         sil noautocmd wincmd p
-	    sil exe 'noautocmd ' . l:win . 'wincmd w'
+        sil exe 'noautocmd ' . l:win . 'wincmd w'
     endif
 endfunction
 
@@ -494,7 +495,7 @@ endfunction
 " Note that this is only supported on Unix where gdb has support for the
 " python API.
 function! conque_gdb#toggle_breakpoint(fullfile, line)
-	let l:command = "clear "
+    let l:command = "clear "
     if bufloaded(s:gdb.buffer_number) || s:gdb.active
         sil exe s:py . ' ' . s:gdb.var . '.vim_toggle_breakpoint("' . s:escape_to_py_file(a:fullfile) .'","'. a:line .'")'
     endif
