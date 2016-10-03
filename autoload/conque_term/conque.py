@@ -1090,8 +1090,8 @@ class Conque(object):
 
     def poll_wait_for_proc(self, tries):
         """ Try 'tries' times to see if self.proc has become a zombie
-		such that we can reclaim its resources. Wait for 2ms before each try.
-		"""
+        such that we can reclaim its resources. Wait for 2ms before each try.
+        """
         pid = self.proc.getpid()
         try:
             for i in range(tries):
