@@ -235,4 +235,7 @@ endif
 
 " }}}
 
+" Command for pasting contents of previous register.
+command! -nargs=0 ConqueTermPaste sil exe ':normal a' . @"
+
 " vim:foldmethod=marker

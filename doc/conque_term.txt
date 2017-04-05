@@ -36,6 +36,7 @@ Contents
         3.1.10 The bell Vim message            |ConqueTerm_ShowBell|
         3.1.11 Unfocused update time           |ConqueTerm_UnfocusedUpdateTime|
         3.1.12 Focused update time             |ConqueTerm_FocusedUpdateTime|
+        3.1.13 Pasting text                    |ConqueTermPaste|
     3.2 Keyboard                               |conque-keyboard|
         3.3.1 The <Esc> key                    |ConqueTerm_EscKey|
         3.3.2 The <C-c> mapping                |ConqueTerm_Interrupt|
@@ -329,6 +330,10 @@ mode.
 >
     let g:ConqueTerm_FocusedUpdateTime = 80
 >
+3.1.13 Pasting                                               *ConqueTermPaste*
+
+Use the ConqueTermPaste command to paste the previously yanked text.
+
 3.2 Keyboard                                          *conque-config-keyboard*
 
 3.2.1 The <Esc> key                                        *ConqueTerm_EscKey*
