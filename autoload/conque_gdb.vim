@@ -328,7 +328,8 @@ function! s:get_unix_gdb()
         return ''
     endif
 
-    sil let l:gdb_py_support = system(l:gdb_exe . ' -q -batch -ex "python print(\"PYYES\")"')
+    let pyresp = "'PYYES'"
+    sil let l:gdb_py_support = system(l:gdb_exe . ' -q -batch -ex "python print(' . pyresp . ')"')
     if l:gdb_py_support =~ ".*PYYES\n.*"
         " Gdb has python support
         let g:conque_gdb_gdb_py_support = 1
@@ -430,7 +431,7 @@ function! conque_gdb#open(...)
         let s:is_gdb_startup = 1
         try
             let s:gdb = conque_term#open(l:gdb_cmd, l:start_cmds, get(a:000, 2, 0), get(a:000, 3, 1), s:term_object)
-			sil exe 'file ConqueGDB\#' . s:gdb.idx
+            sil exe 'file ConqueGDB\#' . s:gdb.idx
         catch
         endtry
         let s:is_gdb_startup = 0
