@@ -68,14 +68,31 @@ let s:term_object = ''
 " Original path to the GDB executable
 let s:orig_gdb_path = g:ConqueGdb_GdbExe
 
+" View options
+if !exists('g:ConqueGdb_CurrentLineColorGroup')
+    let g:ConqueGdb_CurrentLineColorGroup = 'Search'
+endif
+if !exists('g:ConqueGdb_BreakEnabledSymbol')
+    let g:ConqueGdb_BreakEnabledSymbol = '>>'
+endif
+if !exists('g:ConqueGdb_BreakEnabledColorGroup')
+    let g:ConqueGdb_BreakEnabledColorGroup = 'ErrorMsg'
+endif
+if !exists('g:ConqueGdb_BreakDisabledSymbol')
+    let g:ConqueGdb_BreakDisabledSymbol = '>>'
+endif
+if !exists('g:ConqueGdb_BreakDisabledColorGroup')
+    let g:ConqueGdb_BreakDisabledColorGroup = 'WarningMsg'
+endif
+
 " Define the current gdb break point sign
-sil exe 'sign define ' . s:SIGN_POINTER . ' linehl=Search'
+sil exe 'sign define ' . s:SIGN_POINTER . ' linehl=' . g:ConqueGdb_CurrentLineColorGroup
 
 " Define sign for enabled break points
-sil exe 'sign define ' . s:SIGN_ENABLED . ' text=>> texthl=ErrorMsg'
+sil exe 'sign define ' . s:SIGN_ENABLED . ' text=' . g:ConqueGdb_BreakEnabledSymbol . ' texthl=' . g:ConqueGdb_BreakEnabledColorGroup
 
 " Define sign for disabled break points
-sil exe 'sign define ' . s:SIGN_DISABLED . ' text=>> texthl=WarningMsg'
+sil exe 'sign define ' . s:SIGN_DISABLED . ' text=' . g:ConqueGdb_BreakDisabledSymbol . ' texthl=' . g:ConqueGdb_BreakDisabledColorGroup
 
 " How to escape file names before passing them to python.
 function! s:escape_to_py_file(fname)

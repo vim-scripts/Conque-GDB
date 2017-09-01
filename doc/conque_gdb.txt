@@ -56,6 +56,7 @@ Contents
        3.6.9 Delete break point mapping      |conque-gdb-delete-break-mapping|
        3.6.10 Finish mapping                 |conque-gdb-finish-mapping|
        3.6.11 Backtrace mapping              |conque-gdb-backtrace-mapping|
+   3.7 View Options                          |conque-gdb-view-options|
 4. Custom key mappings                       |conque-gdb-custom-key-mappings|
 
 ==============================================================================
@@ -345,6 +346,30 @@ Mapping to execute the backtrace command. By default it is:
 >
     let g:ConqueGdb_Backtrace = g:ConqueGdb_Leader . 't'
 >
+3.7 View Options                                *conque-gdb-view-options*
+
+Conque GDB provides several variables to configure view.
+
+Default value of color group for highlight current line is:
+>
+    let g:ConqueGdb_CurrentLineColorGroup = 'Search'
+
+Default value for symbol of enabled break point is:
+>
+    let g:ConqueGdb_BreakEnabledSymbol = '>>'
+
+Default value of color group for symbol of enabled break point is:
+>
+    let g:ConqueGdb_BreakEnabledColorGroup = 'ErrorMsg'
+
+Default value for symbol of disabled break point is:
+>
+    let g:ConqueGdb_BreakDisabledSymbol = '>>'
+
+Default value of color group for symbol of disabled break point is:
+>
+    let g:ConqueGdb_BreakDisabledColorGroup = 'WarningMsg'
+
 4. Custom key mappings                        *conque-gdb-custom-key-mappings*
 
 This section shows you how you can use |ConqueGdbCommand| to setup your
