@@ -77,12 +77,12 @@ Note: Conque GDB actually works with older versions of GDB (GDB 6.3+).
 However GDB 7.0+ is recommended since it is likely to support all the Conque
 GDB features.
 
-Even tough you have GDB 7.0+ installed on your system it is not 100% sure that
-it will support all the Conque GDB features, namely the ability to place signs
-on lines to mark where break points are currently placed. If you encounter
-this problem with GDB 7.0+ installed on your system, then go ahead and build
-GDB 7.0+ from source with python support by specifying the '--with-python'
-configuration option.
+Even though you have GDB 7.0+ installed on your system it is not 100% sure 
+that it will support all the Conque GDB features, namely the ability to place 
+signs on lines to mark where break points are currently placed. If you 
+encounter this problem with GDB 7.0+ installed on your system, then go ahead 
+and build GDB 7.0+ from source with python support by specifying the 
+'--with-python' configuration option.
 
 1.2 Requirements for Windows                 *conque-gdb-windows-requirements*
 
@@ -133,8 +133,8 @@ use the current window as its destination window for source files when
 break points are hit. Use :ConqueGdbTab to open GDB in a new tab.
 
 When issuing the :ConqueGdbTab or :ConqueGdb commands Conque GDB will open a
-new split window for the source files. See |g:ConqueGdb_SrcSplit| to change how
-Conque should split the GDB window.
+new split window for the source files. See |g:ConqueGdb_SrcSplit| to change 
+how Conque should split the GDB window.
 
 2.2 Delete unneeded buffers                  *conque-gdb-delete-buffers*
                                              *ConqueGdbBDelete*
@@ -146,7 +146,8 @@ If you want Conque to get rid of some of these buffers, you can use the
 while you were debugging.
 
 Note that only buffers opened by Conque GDB will be deleted, and if you have
-modified a buffer opened by Conque GDB, this buffer will not be deleted either.
+modified a buffer opened by Conque GDB, this buffer will not be deleted 
+either.
 >
     :ConqueGdbBDelete
 >
