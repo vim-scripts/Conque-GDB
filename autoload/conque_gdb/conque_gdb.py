@@ -1,4 +1,5 @@
-import re, collections
+import re
+import collections.abc
 
 # Marks that a breakpoint has been hit
 GDB_BREAK_MARK = '\x1a\x1a'
@@ -36,7 +37,7 @@ class RegisteredBreakpoint:
     def __str__(self):
         return self.filename + ':' + self.lineno + ',' + self.enabled
 
-class RegisteredBpDict(collections.MutableMapping):
+class RegisteredBpDict(collections.abc.MutableMapping):
     def __init__(self):
         self.r_breaks = dict()
         self.lookups = dict()
