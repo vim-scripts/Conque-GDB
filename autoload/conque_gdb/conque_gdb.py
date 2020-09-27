@@ -1,4 +1,5 @@
-import re, collections
+import re
+import collections.abc as collections
 
 # Marks that a breakpoint has been hit
 GDB_BREAK_MARK = '\x1a\x1a'
